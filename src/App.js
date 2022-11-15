@@ -11,7 +11,12 @@ function App() {
       <div className='row'>
         <div className='col-3 bg-light left-panel'>
           <FileSearch title='我的Markdown' onFileSearch={()=>{}}/>
-          <FileList files={defaultFiles}/>
+          <FileList 
+            files={defaultFiles}
+            onFileClick={(id) => {console.log(id);}}
+            onFileDelete={(id) => {console.log('deleting',id);}}
+            onSaveEdit={(id,value) => {console.log(id,value);}}
+          />
         </div>
         <div className='col-9 bg-primary right-panel'>
           <h1>This is the right</h1>
