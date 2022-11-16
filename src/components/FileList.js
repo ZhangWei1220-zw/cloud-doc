@@ -3,34 +3,45 @@ import { FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEdit, faTrash, faTimes} from '@fortawesome/free-solid-svg-icons'
 import {faMarkdown} from '@fortawesome/free-brands-svg-icons'
 import PropTypes from 'prop-types'
+import useKeyPress from '../hooks/useKeyPress'
 
 
 const FileList = ({ files, onFileClick, onSaveEdit, onFileDelete}) => {
   const [ editStatus, setEditStatus ] = useState('')
   const [ value, setValue ] = useState('')
+  const enterPressed = useKeyPress(13)
+  const escPressed = useKeyPress(27)
 
-  const closeSearch = (event) => {
-    event.preventDefault()
+  const closeSearch = () => {
     setEditStatus(false)
     setValue('')
   }
 
   useEffect(() => {
-    const handleInputEvent = (event) => {
-      const { keyCode } = event
-      if(keyCode === 13 && editStatus) {
-        let editItem = files.find(file => file.id === editStatus)
-        onSaveEdit(editItem.id, value)
-        setEditStatus(false)
-        setValue('')
-      }else if(keyCode === 27 && editStatus){
-        closeSearch(event)
-      }
+    if(enterPressed && editStatus) {
+      let editItem = files.find(file => file.id === editStatus)
+      onSaveEdit(editItem.id, value)
+      setEditStatus(false)
+      setValue('')
     }
-    document.addEventListener('keyup',handleInputEvent)
-    return () => {
-      document.removeEventListener('keyup',handleInputEvent)
+    if(escPressed && editStatus) {
+      closeSearch()
     }
+    // const handleInputEvent = (event) => {
+    //   const { keyCode } = event
+    //   if(keyCode === 13 && editStatus) {
+    //     let editItem = files.find(file => file.id === editStatus)
+    //     onSaveEdit(editItem.id, value)
+    //     setEditStatus(false)
+    //     setValue('')
+    //   }else if(keyCode === 27 && editStatus){
+    //     closeSearch(event)
+    //   }
+    // }
+    // document.addEventListener('keyup',handleInputEvent)
+    // return () => {
+    //   document.removeEventListener('keyup',handleInputEvent)
+    // }
   })
 
   return (
