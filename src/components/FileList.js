@@ -51,7 +51,7 @@ const FileList = ({ files, onFileClick, onSaveEdit, onFileDelete}) => {
       {
         files.map(file =>  ( 
           <li
-              className='list-group-item bg-light d-flex align-items-center row'
+              className='list-group-item bg-light d-flex align-items-center'
               key={file.id}
             >
           {(file.id !== editStatus) && 
